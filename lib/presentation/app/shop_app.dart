@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:shop_list/navigation/main_navigation.dart';
+import 'package:shop_list/tools/app_colors.dart';
 
 class ShopApp extends StatelessWidget {
   const ShopApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      //home: ShopListPage(),
+      initialRoute: MainNavigation.initialRoute,
+      onGenerateRoute: MainNavigation().onGenerateRoute,
+      theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            backgroundColor: AppColors.mainDarkBlue,
+          ),
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            backgroundColor: AppColors.mainDarkBlue,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.grey,
+          )),
     );
   }
 }
