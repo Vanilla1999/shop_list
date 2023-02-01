@@ -12,14 +12,11 @@ class ShopApp extends StatelessWidget {
       initialRoute: MainNavigation.initialRoute,
       onGenerateRoute: MainNavigation().onGenerateRoute,
       theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-            backgroundColor: AppColors.mainDarkBlue,
-          ),
-          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-            backgroundColor: AppColors.mainDarkBlue,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.grey,
-          )),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: AppColors.mainDarkBlue,
+        ),
+        scaffoldBackgroundColor: AppColors.mainBackgroundScreen,
+      ),
     );
   }
 }
