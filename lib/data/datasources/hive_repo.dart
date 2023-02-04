@@ -12,8 +12,12 @@ class HiveRepo {
   }
 
   void saveShops(List<ShopHive> listShops) async {
-    var box = await Hive.openBox<ShopHive>('shops');
-    box.addAll(listShops);
+    var boxShop = await Hive.openBox<ShopHive>('shops');
+    var boxProduct = await Hive.openBox<ProductHive>('product');
+    for (var shop in listShops) {
+      boxProduct.addAll(shop.products);
+    }
+    boxShop.addAll(listShops);
   }
 
   Future<List<ShopHive>> getShopsFromDb() async {
