@@ -14,7 +14,7 @@ abstract class ShopRepo {
 class ShopRepoImpl extends ShopRepo {
   final HiveRepo hiveRepo;
 
-  ShopRepoImpl({required this.hiveRepo})
+  ShopRepoImpl({required this.hiveRepo});
 
   @override
   Future<List<Shop>> getShopList() async {
