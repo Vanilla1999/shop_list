@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_list/data/models/shop.dart';
 import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_bloc.dart';
 import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_event.dart';
 import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_state.dart';
@@ -7,10 +8,22 @@ import 'package:shop_list/data/models/type.dart';
 
 class FilterWidget extends StatelessWidget {
   final ShopListState state;
-  final TextEditingController nameProductController = TextEditingController();
-  final TextEditingController weightProductController = TextEditingController();
+  final Function(String query) onChangedName;
+  final Function(String query) onChangedWeigth;
+  final Function(
+    List<Type> listType,
+    List<Shop> shop,
+    String productName,
+    String productWeight,
+  ) onChangedType;
 
-  FilterWidget({Key? key, required this.state}) : super(key: key);
+  const FilterWidget(
+      {Key? key,
+      required this.state,
+      required this.onChangedName,
+      required this.onChangedType,
+      required this.onChangedWeigth})
+      : super(key: key);
 
   InputDecoration _decoration() => InputDecoration(
         fillColor: Colors.white,
@@ -31,77 +44,74 @@ class FilterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Type> typeList = [];
-    return Column(
-      children: [
-        TextField(
-          onChanged: (_) => {
-            context.read<ShopListBloc>().add(ShopListEvents.filter(
-                productName: nameProductController.text,
-                productWeight: 0,
-                productType: typeList)),
-          },
-          controller: nameProductController,
-          decoration: _decoration().copyWith(
-              prefixIcon: const Icon(Icons.search),
-              labelText: "Введите название товара"),
-        ),
-        const SizedBox(height: 10.0),
-        TextField(
-          onChanged: (_) => {
-            context.read<ShopListBloc>().add(ShopListEvents.filter(
-                productName: nameProductController.text,
-                productWeight: double.parse(weightProductController.text),
-                productType: typeList)),
-          },
-          controller: weightProductController,
-          decoration: _decoration().copyWith(
-              prefixIcon: const Icon(Icons.search),
-              labelText: "Введите вес товара"),
-        ),
-        const SizedBox(height: 10.0),
-        state.when(
-          loading: () => const SizedBox(
-            height: 10,
-          ),
-          success: (list, listFilter) {
-            typeList = listFilter;
-            return SizedBox(
-              height: 50,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                itemCount: listFilter.length,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: _FilterCardWidget(
-                      type: listFilter[index],
-                      listType: listFilter,
-                    ),
-                  );
-                },
-              ),
-            );
-          },
-          failure: (error) => const SizedBox(
-            height: 10,
+    return Column(children: [
+      TextField(
+        onChanged: onChangedName,
+        decoration: _decoration().copyWith(
+            prefixIcon: const Icon(Icons.search),
+            labelText: "Введите название товара"),
+      ),
+      const SizedBox(height: 10.0),
+      TextField(
+        onChanged: onChangedWeigth,
+        keyboardType: TextInputType.number,
+        decoration: _decoration().copyWith(
+            prefixIcon: const Icon(Icons.search),
+            labelText: "Введите вес товара"),
+      ),
+      const SizedBox(height: 10.0),
+      state.when(
+        loading: () => const SizedBox(height: 10.0),
+        success: (list, listFilter, textName, textWeight) => SizedBox(
+          height: 50,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            itemCount: listFilter.length,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                height: 100,
+                width: 100,
+                child: _FilterCardWidget(
+                  type: listFilter[index],
+                  listType: listFilter,
+                  shop: list,
+                  productName: textName,
+                  productWeight: textWeight,
+                  onChangedType: onChangedType,
+                ),
+              );
+            },
           ),
         ),
-        const SizedBox(height: 10.0),
-      ],
-    );
+        failure: (error) => const SizedBox(height: 10.0),
+      ),
+      const SizedBox(height: 10.0),
+    ]);
   }
 }
 
 class _FilterCardWidget extends StatelessWidget {
   final Type type;
   final List<Type> listType;
+  final List<Shop> shop;
+  final String productName;
+  final String productWeight;
+  final Function(
+    List<Type> listType,
+    List<Shop> shop,
+    String productName,
+    String productWeight,
+  ) onChangedType;
 
   const _FilterCardWidget(
-      {Key? key, required this.type, required this.listType})
+      {Key? key,
+      required this.type,
+      required this.listType,
+      required this.shop,
+      required this.productName,
+      required this.productWeight,
+      required this.onChangedType})
       : super(key: key);
 
   @override
@@ -125,8 +135,7 @@ class _FilterCardWidget extends StatelessWidget {
                     .where((element) => element.type == type.type)
                     .first
                     .selected = type.selected;
-                context.read<ShopListBloc>().add(ShopListEvents.filter(
-                    productName: "", productWeight: 0, productType: listType));
+                onChangedType(listType, shop, productName, productWeight);
               },
             ),
           )

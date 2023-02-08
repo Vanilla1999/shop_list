@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:shop_list/data/models/shop.dart';
 import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_bloc.dart';
+import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_event.dart';
 import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_state.dart';
 import 'package:shop_list/presentation/shop_list_screen/widgets/filter_widget.dart';
 import 'package:shop_list/presentation/shop_list_screen/widgets/shop_list_widget.dart';
-import 'package:shop_list/tools/app_colors.dart';
+import 'package:shop_list/data/models/type.dart';
 
 class ShopListScreen extends StatelessWidget {
   const ShopListScreen({Key? key}) : super(key: key);
@@ -23,7 +25,29 @@ class ShopListScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                FilterWidget(state: state),
+                FilterWidget(
+                  state: state,
+                  onChangedName: (String query) {
+                    context.read<ShopListBloc>().add(ShopListEvents.filterName(
+                          productName: query,
+                        ));
+                  },
+                  onChangedType: (List<Type> listType, List<Shop> shop,
+                      String productName, String productWeight) {
+                    context.read<ShopListBloc>().add(ShopListEvents.filterType(
+                        productName: productName,
+                        productWeight: double.parse(productWeight),
+                        productType: listType,
+                        shopList: shop));
+                  },
+                  onChangedWeigth: (String query) {
+                    context
+                        .read<ShopListBloc>()
+                        .add(ShopListEvents.filterWeight(
+                          productWeight: double.parse(query),
+                        ));
+                  },
+                ),
                 const SizedBox(
                   height: 20,
                 ),

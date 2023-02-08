@@ -10,18 +10,49 @@ import 'shop_list_state.dart';
 class ShopListBloc extends Bloc<ShopListEvents, ShopListState> {
   final RestClientMock apiClient = RestClientMock();
   final ShopRepo databaseRepo = ShopRepoImpl(hiveRepo: HiveRepo());
+  List<Shop> shops = [];
+  List<Type> listType = [];
+  String productName = '';
+  double productWeight = 0.0;
 
   ShopListBloc() : super(const ShopListState.loading()) {
     on<ShopListEvents>((event, emit) async {
       await event.when(
-          filter: (productName, productWeight, productType) async{
-            final List<Shop> shopList = await databaseRepo.getShopList();
-            emit(ShopListState.success(shopList: shopList,typeList: productType));
+          filterType:
+              (productName, productWeight, productType, shopList) async {
+                listType = productType;
+            emit(ShopListState.success(
+                shopList: shopList,
+                typeList: listType,
+                textWeight: productWeight.toString(),
+                textName: productName));
           },
           initialData: () async {
             final List<Shop> shopList = await databaseRepo.getShopList();
             final List<Type> typeList = await databaseRepo.getTypeList();
-            emit(ShopListState.success(shopList: shopList,typeList: typeList));
+            shops = shopList;
+            listType = typeList;
+            emit(ShopListState.success(
+                shopList: shopList,
+                typeList: typeList,
+                textName: productName,
+                textWeight: ""));
+          },
+          filterName: (String productName) {
+            productName = productName;
+            emit(ShopListState.success(
+                shopList: shops,
+                typeList: listType,
+                textName: productName,
+                textWeight: productWeight.toString()));
+          },
+          filterWeight: (double productWeight) {
+            productWeight = productWeight;
+            emit(ShopListState.success(
+                shopList: shops,
+                typeList: listType,
+                textName: productName,
+                textWeight: productWeight.toString()));
           });
     });
   }
