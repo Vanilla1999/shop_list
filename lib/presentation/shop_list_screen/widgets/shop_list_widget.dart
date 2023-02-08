@@ -1,6 +1,10 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_list/data/models/shop.dart';
+import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_bloc.dart';
+import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_state.dart';
 import 'package:shop_list/tools/app_colors.dart';
 
 class ShopListWidget extends StatelessWidget {
@@ -8,13 +12,22 @@ class ShopListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: const [
-          _ResultsTextWithSeeAllWidget(),
-          _ShopListResultWidget(),
-        ],
-      ),
+    return BlocConsumer<ShopListBloc, ShopListState>(
+      listener: (context, state) {
+        // do stuff here based on BlocA's state
+      },
+      builder: (context, state) {
+        return Expanded(
+          child: Column(
+            children: [
+              const _ResultsTextWithSeeAllWidget(),
+              _ShopListResultWidget(
+                state: state,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -65,37 +78,59 @@ class _ResultsTextWithSeeAllWidget extends StatelessWidget {
 }
 
 class _ShopListResultWidget extends StatelessWidget {
-  const _ShopListResultWidget({Key? key}) : super(key: key);
+  final ShopListState state;
+
+  const _ShopListResultWidget({Key? key, required this.state})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final mockList = [
-      "Банан",
-      "Банан",
-      "Банан",
-      "Банан",
-      "Банан",
-      "Банан",
-      "Банан",
-      "Банан",
-      "Банан",
-      "Банан",
-      "Банан",
-      "Банан"
-    ];
-    return Expanded(
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        itemCount: mockList.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              color: AppColors.startGradient,
+    return state.when(
+        loading: () => Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemCount: 0,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      color: AppColors.startGradient,
+                    ),
+                  );
+                },
+              ),
             ),
-          );
-        },
-      ),
-    );
+        success: (list) => Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      color: AppColors.startGradient,
+                      child: Text(list[index].name),
+                    ),
+                  );
+                },
+              ),
+            ),
+        failure: (error) => Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemCount: 0,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      color: AppColors.startGradient,
+                    ),
+                  );
+                },
+              ),
+            ));
   }
 }
