@@ -20,7 +20,12 @@ class RestClientMock extends RestClient {
   @override
   Future<List<ShopHive>> getShops() async {
     await Future.delayed(const Duration(seconds: 1));
-    final productBox = await Hive.openBox("product");
+    final Box<ProductHive> productBox ;
+    if (!Hive.isBoxOpen('product')) {
+      productBox = await Hive.openBox<ProductHive>('product');
+    } else {
+      productBox = Hive.box('product');
+    }
     final productListMagnit = [
        ProductHive(id: 0, name: "Banan", weight: 10.0, type: "Food"),
        ProductHive(id: 1, name: "Beer", weight: 11.0, type: "Drinks"),
@@ -65,7 +70,6 @@ class RestClientMock extends RestClient {
        ProductHive(
           id: 20, name: "T-shirt4", weight: 10.0, type: "Clothes"),
     ];
-    await productBox.close();
     return [
       ShopHive(
           id: 0, icon: "magnit", name: "Magnit", products: productListMagnit),
