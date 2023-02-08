@@ -7,8 +7,10 @@ import 'package:shop_list/data/models/type.dart';
 
 class FilterWidget extends StatelessWidget {
   final ShopListState state;
+  final TextEditingController nameProductController = TextEditingController();
+  final TextEditingController weightProductController = TextEditingController();
 
-  const FilterWidget({Key? key, required this.state}) : super(key: key);
+  FilterWidget({Key? key, required this.state}) : super(key: key);
 
   InputDecoration _decoration() => InputDecoration(
         fillColor: Colors.white,
@@ -29,15 +31,30 @@ class FilterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Type> typeList = [];
     return Column(
       children: [
         TextField(
+          onChanged: (_) => {
+            context.read<ShopListBloc>().add(ShopListEvents.filter(
+                productName: nameProductController.text,
+                productWeight: 0,
+                productType: typeList)),
+          },
+          controller: nameProductController,
           decoration: _decoration().copyWith(
               prefixIcon: const Icon(Icons.search),
               labelText: "Введите название товара"),
         ),
         const SizedBox(height: 10.0),
         TextField(
+          onChanged: (_) => {
+            context.read<ShopListBloc>().add(ShopListEvents.filter(
+                productName: nameProductController.text,
+                productWeight: double.parse(weightProductController.text),
+                productType: typeList)),
+          },
+          controller: weightProductController,
           decoration: _decoration().copyWith(
               prefixIcon: const Icon(Icons.search),
               labelText: "Введите вес товара"),
@@ -47,24 +64,28 @@ class FilterWidget extends StatelessWidget {
           loading: () => const SizedBox(
             height: 10,
           ),
-          success: (list, listFilter) => SizedBox(
-            height: 50,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              itemCount: listFilter.length,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: _FilterCardWidget(
-                    type: listFilter[index],
-                    listType: listFilter,
-                  ),
-                );
-              },
-            ),
-          ),
+          success: (list, listFilter) {
+            typeList = listFilter;
+            return SizedBox(
+              height: 50,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                itemCount: listFilter.length,
+                itemBuilder: (context, index) {
+                  return SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: _FilterCardWidget(
+                      type: listFilter[index],
+                      listType: listFilter,
+                    ),
+                  );
+                },
+              ),
+            );
+          },
           failure: (error) => const SizedBox(
             height: 10,
           ),
