@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_state.dart';
 
-
 class FilterWidget extends StatelessWidget {
   final ShopListState state;
-  const FilterWidget({Key? key,required this.state}) : super(key: key);
+
+  const FilterWidget({Key? key, required this.state}) : super(key: key);
 
   InputDecoration _decoration() => InputDecoration(
         fillColor: Colors.white,
         filled: true,
-        enabledBorder:OutlineInputBorder(
+        enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: const BorderSide(
               color: Colors.white,
               width: 1.0,
-            )) ,
+            )),
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: const BorderSide(
@@ -25,14 +25,6 @@ class FilterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mocCharacteristic = [
-      "Drinks",
-      "Food",
-      "Health",
-      "Gaming",
-      "3D",
-      "Clothes"
-    ];
     return Column(
       children: [
         TextField(
@@ -47,28 +39,35 @@ class FilterWidget extends StatelessWidget {
               labelText: "Введите вес товара"),
         ),
         const SizedBox(height: 10.0),
-        SizedBox(
-          height: 50,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            itemCount: mocCharacteristic.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  color: Colors.red,
-                  child: Text(
-                    mocCharacteristic[index],
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                ),
-              );
-            },
+        state.when(
+          loading: () => const SizedBox(
+            height: 10,
           ),
-        ),
+          success: (list) => SizedBox(
+            height: 50,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    color: Colors.red,
+                    child: Text(
+                      list[index].name,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          failure: (error) => const SizedBox(
+            height: 10,
+        ),),
         const SizedBox(height: 10.0),
       ],
     );
