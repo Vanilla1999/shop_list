@@ -4,7 +4,7 @@ import 'package:shop_list/data/datasources/retrofit_client.dart';
 import 'package:shop_list/data/models/shop.dart';
 import 'package:shop_list/data/repository/shop_repo.dart';
 import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_event.dart';
-
+import 'package:shop_list/data/models/type.dart';
 import 'shop_list_state.dart';
 
 class ShopListBloc extends Bloc<ShopListEvents, ShopListState> {
@@ -17,7 +17,8 @@ class ShopListBloc extends Bloc<ShopListEvents, ShopListState> {
           filter: (productName, productWeight, productType) {},
           initialData: () async {
             final List<Shop> shopList = await databaseRepo.getShopList();
-            emit(ShopListState.success(shopList: shopList));
+            final List<Type> typeList = await databaseRepo.getTypeList();
+            emit(ShopListState.success(shopList: shopList,typeList: typeList));
           });
     });
   }

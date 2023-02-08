@@ -38,7 +38,7 @@ class _ResultsTextWithSeeAllWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return state.maybeWhen(
-        success: (list) => Row(
+        success: (list,listFilter) => Row(
               children: [
                 Expanded(
                   child: RichText(
@@ -139,7 +139,7 @@ class _ShopListResultWidget extends StatelessWidget {
                 },
               ),
             ),
-        success: (list) => Expanded(
+        success: (list,listFilter) => Expanded(
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),

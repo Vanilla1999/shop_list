@@ -16,4 +16,5 @@ Future<void> initialData() async {
   await hiveRepo.init();
   await hiveRepo.clearDataBase();
   await hiveRepo.saveShops(await RestClientMock().getShops());
+  await hiveRepo.saveTypes(await RestClientMock().getTypes());
 }

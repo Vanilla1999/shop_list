@@ -43,7 +43,7 @@ class FilterWidget extends StatelessWidget {
           loading: () => const SizedBox(
             height: 10,
           ),
-          success: (list) => SizedBox(
+          success: (list,listFilter) => SizedBox(
             height: 50,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -57,7 +57,7 @@ class FilterWidget extends StatelessWidget {
                     width: 50,
                     color: Colors.red,
                     child: Text(
-                      list[index].name,
+                      listFilter[index].type,
                       style: const TextStyle(color: Colors.black),
                     ),
                   ),

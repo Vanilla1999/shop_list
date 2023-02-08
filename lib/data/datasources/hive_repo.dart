@@ -2,6 +2,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shop_list/data/hive_objects/product_hive.dart';
 import 'package:shop_list/data/hive_objects/shop_hive.dart';
+import 'package:shop_list/data/hive_objects/type_hive.dart';
 
 class HiveRepo {
   Future<void> init() async {
@@ -9,6 +10,7 @@ class HiveRepo {
     await Hive.initFlutter(appDocumentDirectory.path);
     Hive.registerAdapter(ShopHiveAdapter());
     Hive.registerAdapter(ProductHiveAdapter());
+    Hive.registerAdapter(TypeHiveAdapter());
   }
 
   Future<void> saveShops(List<ShopHive> listShops) async {
@@ -28,6 +30,26 @@ class HiveRepo {
       boxProduct.addAll(shop.products);
     }
     boxShop.addAll(listShops);
+  }
+
+  Future<void> saveTypes(List<TypeHive> listTypes) async {
+    Box<TypeHive> typeBox;
+    if (!Hive.isBoxOpen('types')) {
+      typeBox = await Hive.openBox<TypeHive>('types');
+    } else {
+      typeBox = Hive.box<TypeHive>('types');
+    }
+    typeBox.addAll(listTypes);
+  }
+
+  Future<List<TypeHive>> getTypesFromDb() async {
+    Box<TypeHive> typeBox;
+    if (!Hive.isBoxOpen('types')) {
+      typeBox = await Hive.openBox<TypeHive>('types');
+    } else {
+      typeBox = Hive.box('types');
+    }
+    return typeBox.values.toList();
   }
 
   Future<List<ShopHive>> getShopsFromDb() async {
@@ -53,6 +75,7 @@ class HiveRepo {
   Future<void> clearDataBase() async {
     Box boxShop;
     Box boxProduct;
+    Box typeBox;
     if (!Hive.isBoxOpen('shops')) {
       boxShop = await Hive.openBox<ShopHive>('shops');
     } else {
@@ -63,8 +86,13 @@ class HiveRepo {
     } else {
       boxProduct = Hive.box('product');
     }
-    boxProduct = await Hive.openBox<ProductHive>('product');
+    if (!Hive.isBoxOpen('type')) {
+      typeBox = await Hive.openBox<TypeHive>('type');
+    } else {
+      typeBox = Hive.box('type');
+    }
     await boxShop.clear();
+    await typeBox.clear();
     await boxProduct.clear();
   }
 }

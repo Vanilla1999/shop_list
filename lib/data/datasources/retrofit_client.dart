@@ -3,6 +3,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 import 'package:shop_list/data/hive_objects/product_hive.dart';
 import 'package:shop_list/data/hive_objects/shop_hive.dart';
+import 'package:shop_list/data/hive_objects/type_hive.dart';
 
 part 'retrofit_client.g.dart';
 
@@ -14,6 +15,8 @@ abstract class RestClient {
 
   @GET("/shops")
   Future<List<ShopHive>> getShops();
+  @GET("/types")
+  Future<List<TypeHive>> getTypes();
 }
 
 class RestClientMock extends RestClient {
@@ -90,6 +93,19 @@ class RestClientMock extends RestClient {
           icon: "pyatorochka",
           name: "pyatorochka",
           products: productsPyatorka),
+    ];
+  }
+
+  @override
+  Future<List<TypeHive>> getTypes()async {
+    return [
+      TypeHive(type: "Food"),
+      TypeHive(type: "Drinks"),
+      TypeHive(type: "Gaming"),
+      TypeHive(type: "3D"),
+      TypeHive(type: "Clothes"),
+      TypeHive(type: "Anime"),
+      TypeHive(type: "Manga"),
     ];
   }
 }
