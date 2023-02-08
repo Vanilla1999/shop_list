@@ -11,7 +11,7 @@ class HiveRepo {
     Hive.registerAdapter(ProductHiveAdapter());
   }
 
-  void saveShops(List<ShopHive> listShops) async {
+  Future<void> saveShops(List<ShopHive> listShops) async {
     var boxShop = await Hive.openBox<ShopHive>('shops');
     var boxProduct = await Hive.openBox<ProductHive>('product');
     for (var shop in listShops) {
