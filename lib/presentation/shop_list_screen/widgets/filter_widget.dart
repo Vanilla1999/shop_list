@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_state.dart';
+
 
 class FilterWidget extends StatelessWidget {
-  const FilterWidget({Key? key}) : super(key: key);
+  final ShopListState state;
+  const FilterWidget({Key? key,required this.state}) : super(key: key);
 
   InputDecoration _decoration() => InputDecoration(
         fillColor: Colors.white,

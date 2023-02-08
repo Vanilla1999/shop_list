@@ -8,72 +8,110 @@ import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_state.da
 import 'package:shop_list/tools/app_colors.dart';
 
 class ShopListWidget extends StatelessWidget {
-  const ShopListWidget({Key? key}) : super(key: key);
+  final ShopListState state;
+
+  const ShopListWidget({Key? key, required this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ShopListBloc, ShopListState>(
-      listener: (context, state) {
-        // do stuff here based on BlocA's state
-      },
-      builder: (context, state) {
-        return Expanded(
-          child: Column(
-            children: [
-              const _ResultsTextWithSeeAllWidget(),
-              _ShopListResultWidget(
-                state: state,
-              ),
-            ],
+    return Expanded(
+      child: Column(
+        children: [
+          _ResultsTextWithSeeAllWidget(
+            state: state,
           ),
-        );
-      },
+          _ShopListResultWidget(
+            state: state,
+          ),
+        ],
+      ),
     );
   }
 }
 
 class _ResultsTextWithSeeAllWidget extends StatelessWidget {
-  const _ResultsTextWithSeeAllWidget({Key? key}) : super(key: key);
+  final ShopListState state;
+
+  const _ResultsTextWithSeeAllWidget({Key? key, required this.state})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: RichText(
-            maxLines: 1,
-            text: const TextSpan(children: [
-              TextSpan(
-                text: "Find results",
-                style: TextStyle(
-                  fontSize: 21,
-                  color: AppColors.findResultText,
-                  fontWeight: FontWeight.w700,
+    return state.maybeWhen(
+        success: (list) => Row(
+              children: [
+                Expanded(
+                  child: RichText(
+                    maxLines: 1,
+                    text: TextSpan(children: [
+                      const TextSpan(
+                        text: "Find results",
+                        style: TextStyle(
+                          fontSize: 21,
+                          color: AppColors.findResultText,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const TextSpan(
+                        text: "  ",
+                      ),
+                      TextSpan(
+                        text: "(${list.length})",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ]),
+                  ),
                 ),
-              ),
-              TextSpan(
-                text: "  ",
-              ),
-              TextSpan(
-                text: "(896 items)",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w400,
+                TextButton(
+                  onPressed: () => {},
+                  child: const Text(
+                    "(See All)",
+                    style: TextStyle(color: AppColors.startGradient),
+                  ),
                 ),
-              ),
-            ]),
-          ),
-        ),
-        TextButton(
-          onPressed: () => {},
-          child: const Text(
-            "(See All)",
-            style: TextStyle(color: AppColors.startGradient),
-          ),
-        ),
-      ],
-    );
+              ],
+            ),
+        orElse: () => Row(
+              children: [
+                Expanded(
+                  child: RichText(
+                    maxLines: 1,
+                    text: const TextSpan(children: [
+                      TextSpan(
+                        text: "Find results",
+                        style: TextStyle(
+                          fontSize: 21,
+                          color: AppColors.findResultText,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "  ",
+                      ),
+                      TextSpan(
+                        text: "(0)",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ]),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => {},
+                  child: const Text(
+                    "(See All)",
+                    style: TextStyle(color: AppColors.startGradient),
+                  ),
+                ),
+              ],
+            ));
   }
 }
 

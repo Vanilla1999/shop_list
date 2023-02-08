@@ -12,8 +12,18 @@ class HiveRepo {
   }
 
   Future<void> saveShops(List<ShopHive> listShops) async {
-    var boxShop = await Hive.openBox<ShopHive>('shops');
-    var boxProduct = await Hive.openBox<ProductHive>('product');
+    Box<ShopHive> boxShop;
+    Box<ProductHive> boxProduct;
+    if (!Hive.isBoxOpen('shops')) {
+      boxShop = await Hive.openBox<ShopHive>('shops');
+    } else {
+      boxShop = Hive.box<ShopHive>('shops');
+    }
+    if (!Hive.isBoxOpen('product')) {
+      boxProduct = await Hive.openBox<ProductHive>('product');
+    } else {
+      boxProduct = Hive.box<ProductHive>('product');
+    }
     for (var shop in listShops) {
       boxProduct.addAll(shop.products);
     }
@@ -21,12 +31,40 @@ class HiveRepo {
   }
 
   Future<List<ShopHive>> getShopsFromDb() async {
-    var box = await Hive.openBox<ShopHive>('shops');
-    return box.values.toList();
+    Box<ShopHive> boxShop;
+    if (!Hive.isBoxOpen('shops')) {
+      boxShop = await Hive.openBox<ShopHive>('shops');
+    } else {
+      boxShop = Hive.box('shops');
+    }
+    return boxShop.values.toList();
   }
 
   Future<List<ProductHive>> getProductsFromDb() async {
-    var box = await Hive.openBox<ProductHive>('product');
-    return box.values.toList();
+    Box<ProductHive> boxProduct;
+    if (!Hive.isBoxOpen('product')) {
+      boxProduct = await Hive.openBox<ProductHive>('product');
+    } else {
+      boxProduct = Hive.box('product');
+    }
+    return boxProduct.values.toList();
+  }
+
+  Future<void> clearDataBase() async {
+    Box boxShop;
+    Box boxProduct;
+    if (!Hive.isBoxOpen('shops')) {
+      boxShop = await Hive.openBox<ShopHive>('shops');
+    } else {
+      boxShop = Hive.box('shops');
+    }
+    if (!Hive.isBoxOpen('product')) {
+      boxProduct = await Hive.openBox<ProductHive>('product');
+    } else {
+      boxProduct = Hive.box('product');
+    }
+    boxProduct = await Hive.openBox<ProductHive>('product');
+    await boxShop.clear();
+    await boxProduct.clear();
   }
 }
