@@ -86,10 +86,10 @@ class HiveRepo {
     } else {
       boxProduct = Hive.box('product');
     }
-    if (!Hive.isBoxOpen('type')) {
-      typeBox = await Hive.openBox<TypeHive>('type');
+    if (!Hive.isBoxOpen('types')) {
+      typeBox = await Hive.openBox<TypeHive>('types');
     } else {
-      typeBox = Hive.box('type');
+      typeBox = Hive.box('types');
     }
     await boxShop.clear();
     await typeBox.clear();
