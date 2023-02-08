@@ -14,7 +14,10 @@ class ShopListBloc extends Bloc<ShopListEvents, ShopListState> {
   ShopListBloc() : super(const ShopListState.loading()) {
     on<ShopListEvents>((event, emit) async {
       await event.when(
-          filter: (productName, productWeight, productType) {},
+          filter: (productName, productWeight, productType) async{
+            final List<Shop> shopList = await databaseRepo.getShopList();
+            emit(ShopListState.success(shopList: shopList,typeList: productType));
+          },
           initialData: () async {
             final List<Shop> shopList = await databaseRepo.getShopList();
             final List<Type> typeList = await databaseRepo.getTypeList();
