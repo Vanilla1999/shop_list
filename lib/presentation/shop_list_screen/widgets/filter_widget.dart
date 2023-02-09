@@ -45,7 +45,6 @@ class FilterWidget extends StatelessWidget {
       TextField(
         onChanged: onChangedName,
         decoration: _decoration().copyWith(
-            prefixIcon: const Icon(Icons.search),
             labelText: "Введите название товара"),
       ),
       const SizedBox(height: 10.0),
@@ -53,7 +52,6 @@ class FilterWidget extends StatelessWidget {
         onChanged: onChangedWeigth,
         keyboardType: TextInputType.number,
         decoration: _decoration().copyWith(
-            prefixIcon: const Icon(Icons.search),
             labelText: "Введите вес товара"),
       ),
       const SizedBox(height: 10.0),
