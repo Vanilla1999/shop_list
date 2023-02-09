@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'type.freezed.dart';
 
-@freezed
+@unfreezed
 class Type with _$Type{
   factory Type({
     required String type,

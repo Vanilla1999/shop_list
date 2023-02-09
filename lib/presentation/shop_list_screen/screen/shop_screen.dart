@@ -32,13 +32,9 @@ class ShopListScreen extends StatelessWidget {
                           productName: query,
                         ));
                   },
-                  onChangedType: (List<Type> listType, List<Shop> shop,
-                      String productName, String productWeight) {
+                  onChangedType: (List<Type> listType) {
                     context.read<ShopListBloc>().add(ShopListEvents.filterType(
-                        productName: productName,
-                        productWeight: productWeight,
-                        productType: listType,
-                        shopList: shop));
+                        productType: listType));
                   },
                   onChangedWeigth: (String query) {
                     context

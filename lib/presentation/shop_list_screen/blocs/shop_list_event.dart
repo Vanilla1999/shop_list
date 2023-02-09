@@ -14,11 +14,9 @@ class ShopListEvents with _$ShopListEvents {
     required String productWeight,
   }) = _filterWeight;
 
-  const factory ShopListEvents.filterType(
-      {required String productName,
-      required String productWeight,
-      required List<Type> productType,
-      required List<Shop> shopList}) = _filterType;
+  const factory ShopListEvents.filterType({
+    required List<Type> productType,
+  }) = _filterType;
 
   const factory ShopListEvents.initialData() = _initialData;
 }

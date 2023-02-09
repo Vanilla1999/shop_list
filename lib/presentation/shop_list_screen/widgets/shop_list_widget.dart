@@ -38,7 +38,7 @@ class _ResultsTextWithSeeAllWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return state.maybeWhen(
-        success: (list,listFilter,textName,textWeight) => Row(
+        success: (shopData) => Row(
               children: [
                 Expanded(
                   child: RichText(
@@ -56,7 +56,7 @@ class _ResultsTextWithSeeAllWidget extends StatelessWidget {
                         text: "  ",
                       ),
                       TextSpan(
-                        text: "(${list.length})",
+                        text: "(${shopData.shops.length})",
                         style: const TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
@@ -139,17 +139,17 @@ class _ShopListResultWidget extends StatelessWidget {
                 },
               ),
             ),
-        success: (list,listFilter,textName,textWeight) => Expanded(
+        success: (shopData) => Expanded(
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
-                itemCount: list.length,
+                itemCount: shopData.shops.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       color: AppColors.startGradient,
-                      child: Text(list[index].name),
+                      child: Text(shopData.shops[index].name),
                     ),
                   );
                 },

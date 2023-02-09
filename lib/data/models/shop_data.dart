@@ -10,7 +10,7 @@ class ShopsData with _$ShopsData {
     required List<Shop> shops,
     required List<Type> listType,
     required String productName,
-    required double productWeight,
+    required String productWeight,
   }) = _ShopsData;
 
 }
