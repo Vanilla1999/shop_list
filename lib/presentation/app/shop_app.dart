@@ -13,7 +13,7 @@ class ShopApp extends StatelessWidget {
       onGenerateRoute: MainNavigation().onGenerateRoute,
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.mainDarkBlue,
+          backgroundColor: AppColors.startGradient,
         ),
         scaffoldBackgroundColor: AppColors.mainBackgroundScreen,
       ),
