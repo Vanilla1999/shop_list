@@ -119,7 +119,7 @@ class _FilterCardWidget extends StatelessWidget {
                   if (e.type == type.type) {
                     return e.copyWith(selected: !type.selected);
                   } else {
-                    return e;
+                    return e.copyWith(selected: false);
                   }
                 }).toList();
                 onChangedType(newList);

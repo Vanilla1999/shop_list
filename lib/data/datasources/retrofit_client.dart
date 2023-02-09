@@ -30,7 +30,7 @@ class RestClientMock extends RestClient {
       productBox = Hive.box('product');
     }
     final productListMagnit = [
-       ProductHive(id: 0, name: "Banan", weight: 10.0, type: "Food"),
+       ProductHive(id: 0, name: "Banan", weight: 1.0, type: "Food"),
        ProductHive(id: 1, name: "Beer", weight: 11.0, type: "Drinks"),
        ProductHive(
           id: 2, name: "Metal Gear", weight: 12.0, type: "Gaming"),
@@ -38,16 +38,13 @@ class RestClientMock extends RestClient {
        ProductHive(id: 4, name: "T-shirt", weight: 10.0, type: "Clothes"),
     ];
     final productListFixPrice =[
-       ProductHive(id: 5, name: "Banan1", weight: 1.0, type: "Food"),
        ProductHive(id: 6, name: "Beer1", weight: 5, type: "Drinks"),
        ProductHive(
           id: 7, name: "Metal Gear1", weight: 132.0, type: "Gaming"),
        ProductHive(id: 3, name: "Ender1", weight: 113.0, type: "3D"),
-       ProductHive(
-          id: 8, name: "T-shirt1", weight: 140.0, type: "Clothes"),
     ];
     final productListSevenEleven = [
-       ProductHive(id: 9, name: "Banan2", weight: 10.0, type: "Food"),
+       ProductHive(id: 9, name: "Banan2", weight: 2.0, type: "Food"),
        ProductHive(id: 10, name: "Beer2", weight: 11.0, type: "Drinks"),
        ProductHive(
           id: 11, name: "Metal Gear2", weight: 12.0, type: "Gaming"),
@@ -56,7 +53,7 @@ class RestClientMock extends RestClient {
           id: 12, name: "T-shirt2", weight: 10.0, type: "Clothes"),
     ];
     final productsTabris = [
-       ProductHive(id: 13, name: "Banan3", weight: 10.0, type: "Food"),
+       ProductHive(id: 13, name: "Banan3", weight: 3.0, type: "Food"),
        ProductHive(id: 14, name: "Beer3", weight: 6.0, type: "Drinks"),
        ProductHive(
           id: 15, name: "Metal Gear3", weight: 7.0, type: "Gaming"),
