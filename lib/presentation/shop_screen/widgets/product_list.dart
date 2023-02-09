@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_list/data/models/product.dart';
 import 'package:shop_list/data/models/shop.dart';
 import 'package:shop_list/images/my_flutter_app_icons.dart';
+import 'package:shop_list/navigation/main_navigation.dart';
 import 'package:shop_list/tools/app_colors.dart';
 
 class ProductListWidget extends StatelessWidget {
@@ -105,7 +106,7 @@ class _ProductIcon extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  // Navigator.of(context).pushNamed(MainNavigationRouteNames.shopItemScreen,arguments: shop);
+                   Navigator.of(context).pushNamed(MainNavigationRouteNames.productScreen,arguments:product.copyWith());
                 },
               ),
             )

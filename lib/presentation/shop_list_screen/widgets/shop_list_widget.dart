@@ -203,7 +203,7 @@ class ShopIcon extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamed(MainNavigationRouteNames.shopItemScreen,arguments: shop);
+                  Navigator.of(context).pushNamed(MainNavigationRouteNames.shopItemScreen,arguments: shop.copyWith());
                 },
               ),
             )
