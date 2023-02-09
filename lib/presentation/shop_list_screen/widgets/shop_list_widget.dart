@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_list/data/models/shop.dart';
 import 'package:shop_list/data/models/shop_data.dart';
 import 'package:shop_list/images/my_flutter_app_icons.dart';
+import 'package:shop_list/navigation/main_navigation.dart';
 import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_bloc.dart';
 import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_state.dart';
 import 'package:shop_list/tools/app_colors.dart';
@@ -201,7 +202,9 @@ class ShopIcon extends StatelessWidget {
             Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushNamed(MainNavigationRouteNames.shopItemScreen,arguments: shop);
+                },
               ),
             )
           ],

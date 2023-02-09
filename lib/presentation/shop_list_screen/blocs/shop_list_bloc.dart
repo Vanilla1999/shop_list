@@ -19,7 +19,6 @@ class ShopListBloc extends Bloc<ShopListEvents, ShopListState> {
   ShopListBloc() : super(const ShopListState.loading()) {
     on<ShopListEvents>((event, emit) async {
       await event.when(filterType: (productType) {
-        emit(const ShopListState.loading());
         final List<Shop> filteredShops = _filterShops(mainShops, productType,
             shopData.productName, shopData.productWeight);
         shopData =
@@ -58,32 +57,39 @@ class ShopListBloc extends Bloc<ShopListEvents, ShopListState> {
     }
     if (productName != '' && productWeight == '' && selectedType.isEmpty) {
       for (var shop in mainShops) {
-        if (shop.products
-            .where((product) => product.name.contains(productName))
-            .isNotEmpty) {
-          filterShops.add(shop);
+        final newShop = shop.copyWith(products: shop.products.toList());
+        final products = shop.products
+            .where((product) => product.name.startsWith(productName));
+        if (products.isNotEmpty) {
+          newShop.products.clear();
+          newShop.products.addAll(products);
+          filterShops.add(newShop);
         }
       }
     }
     if (productName != '' && productWeight != '' && selectedType.isEmpty) {
       for (var shop in mainShops) {
-        if (shop.products
-            .where((product) =>
-                product.name.contains(productName) &&
-                product.weight == double.parse(productWeight))
-            .isNotEmpty) {
+        final newShop = shop.copyWith(products: shop.products.toList());
+        final products = shop.products.where((product) =>
+            product.name.startsWith(productName) &&
+            product.weight == double.parse(productWeight));
+        if (products.isNotEmpty) {
+          newShop.products.clear();
+          newShop.products.addAll(products);
           filterShops.add(shop);
         }
       }
     }
     if (productName != '' && productWeight != '' && selectedType.isNotEmpty) {
       for (var shop in mainShops) {
-        if (shop.products
-            .where((product) =>
-                product.type == selectedType.first.type &&
-                product.name.contains(productName) &&
-                product.weight == double.parse(productWeight))
-            .isNotEmpty) {
+        final newShop = shop.copyWith(products: shop.products.toList());
+        final products = shop.products.where((product) =>
+            product.type == selectedType.first.type &&
+            product.name.startsWith(productName) &&
+            product.weight == double.parse(productWeight));
+        if (products.isNotEmpty) {
+          newShop.products.clear();
+          newShop.products.addAll(products);
           filterShops.add(shop);
         }
       }

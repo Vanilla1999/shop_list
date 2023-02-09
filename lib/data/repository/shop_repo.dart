@@ -41,11 +41,11 @@ class ShopRepoImpl extends ShopRepo {
 
 extension ShopHiveMap on ShopHive {
   Shop toEntity() =>
-      Shop(id, icon, name, products.map((e) => e.toEntity()).toList());
+      Shop(id:id, icon:icon,name: name, products:products.map((e) => e.toEntity()).toList());
 }
 
 extension ProductHiveMap on ProductHive {
-  Product toEntity() => Product(id, name, weight, type);
+  Product toEntity() => Product(id:id, name:name, weight:weight, type:type);
 }
 
 extension TypeHiveMap on TypeHive {

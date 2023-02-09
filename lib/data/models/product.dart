@@ -1,8 +1,12 @@
-class Product {
-  final int id;
-  final String name;
-  final double weight;
-  final String type;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Product(this.id, this.name, this.weight, this.type);
+part 'product.freezed.dart';
+@unfreezed
+class Product with _$Product {
+  factory Product({
+    required int id,
+    required String name,
+    required double weight,
+    required String type,
+  }) = _Product;
 }

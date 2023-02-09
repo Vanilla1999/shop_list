@@ -1,10 +1,18 @@
-import 'package:shop_list/data/models/product.dart';
 
-class Shop {
-  final int id;
-  final String icon;
-  final String name;
-  final List<Product> products;
 
-  Shop(this.id, this.icon, this.name, this.products);
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shop_list/data/models/type.dart';
+
+import 'product.dart';
+
+part 'shop.freezed.dart';
+
+@unfreezed
+class Shop with _$Shop {
+  factory Shop({
+    required int id,
+    required String icon,
+    required String name,
+    required List<Product> products,
+  }) = _Shop;
 }

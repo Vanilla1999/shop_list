@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shop_list/data/models/shop.dart';
 import 'screen_factory.dart';
 
 abstract class MainNavigationRouteNames {
   static const shopListScreen = '/';
+  static const shopItemScreen = '/shop';
 }
 
 class MainNavigation {
@@ -14,6 +16,12 @@ class MainNavigation {
       case MainNavigationRouteNames.shopListScreen:
         return MaterialPageRoute(
           builder: (_) => _screenFactory.makeShopListScreen(),
+        );
+      case MainNavigationRouteNames.shopItemScreen:
+        final arguments = settings.arguments;
+        final shop = arguments as Shop;
+        return MaterialPageRoute(
+          builder: (_) => _screenFactory.makeShopItemScreen(shop),
         );
       default:
         const widget = Text('Navigation error!!!');

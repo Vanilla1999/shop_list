@@ -17,10 +17,7 @@ class ShopListScreen extends StatelessWidget {
     FlutterNativeSplash.remove();
     return SafeArea(
       child: Scaffold(
-        body: BlocConsumer<ShopListBloc, ShopListState>(
-          listener: (context, state) {
-            // do stuff here based on BlocA's state
-          },
+        body: BlocBuilder<ShopListBloc, ShopListState>(
           builder: (context, state) => Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
