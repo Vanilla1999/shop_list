@@ -11,18 +11,18 @@ class FilterWidget extends StatelessWidget {
   final Function(String query) onChangedName;
   final Function(String query) onChangedWeigth;
   final Function(
-      List<Type> listType,
-      ) onChangedType;
+    List<Type> listType,
+  ) onChangedType;
 
-  const FilterWidget({Key? key,
-    required this.state,
-    required this.onChangedName,
-    required this.onChangedType,
-    required this.onChangedWeigth})
+  const FilterWidget(
+      {Key? key,
+      required this.state,
+      required this.onChangedName,
+      required this.onChangedType,
+      required this.onChangedWeigth})
       : super(key: key);
 
-  InputDecoration _decoration() =>
-      InputDecoration(
+  InputDecoration _decoration() => InputDecoration(
         fillColor: Colors.white,
         filled: true,
         enabledBorder: OutlineInputBorder(
@@ -59,27 +59,25 @@ class FilterWidget extends StatelessWidget {
       const SizedBox(height: 10.0),
       state.when(
         loading: () => const SizedBox(height: 10.0),
-        success: (shopData) =>
-            SizedBox(
-              height: 50,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior
-                    .onDrag,
-                itemCount: shopData.listType.length,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: _FilterCardWidget(
-                      type: shopData.listType[index],
-                      listType: shopData.listType,
-                      onChangedType: onChangedType,
-                    ),
-                  );
-                },
-              ),
-            ),
+        success: (shopData) => SizedBox(
+          height: 50,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            itemCount: shopData.listType.length,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                height: 100,
+                width: 100,
+                child: _FilterCardWidget(
+                  type: shopData.listType[index],
+                  listType: shopData.listType,
+                  onChangedType: onChangedType,
+                ),
+              );
+            },
+          ),
+        ),
         failure: (error) => const SizedBox(height: 10.0),
       ),
       const SizedBox(height: 10.0),
@@ -91,13 +89,14 @@ class _FilterCardWidget extends StatelessWidget {
   final Type type;
   final List<Type> listType;
   final Function(
-      List<Type> listType,
-      ) onChangedType;
+    List<Type> listType,
+  ) onChangedType;
 
-  const _FilterCardWidget({Key? key,
-    required this.type,
-    required this.listType,
-    required this.onChangedType})
+  const _FilterCardWidget(
+      {Key? key,
+      required this.type,
+      required this.listType,
+      required this.onChangedType})
       : super(key: key);
 
   @override
@@ -116,8 +115,14 @@ class _FilterCardWidget extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-              listType.where((element) => element.type==type.type).first.selected = !type.selected;
-                onChangedType(listType);
+                final List<Type> newList = listType.map((Type e) {
+                  if (e.type == type.type) {
+                    return e.copyWith(selected: !type.selected);
+                  } else {
+                    return e;
+                  }
+                }).toList();
+                onChangedType(newList);
               },
             ),
           )
