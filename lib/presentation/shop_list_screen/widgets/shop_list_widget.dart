@@ -159,11 +159,8 @@ class _ShopListResultWidget extends StatelessWidget {
                     crossAxisCount: 2),
                 itemCount: 0,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      color: AppColors.startGradient,
-                    ),
+                  return Container(
+                    color: AppColors.startGradient,
                   );
                 },
               ),
@@ -194,7 +191,7 @@ class ShopIcon extends StatelessWidget {
                     child: SizedBox(
                         height: 100,
                         child: FittedBox(
-                            fit: BoxFit.fill,
+                            fit: BoxFit.fitWidth,
                             child: Icon(MyFlutterApp.returnIcon(shop.name)))),
                   ),
                   Text(shop.name),
