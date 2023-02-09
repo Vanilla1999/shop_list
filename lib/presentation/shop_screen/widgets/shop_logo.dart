@@ -9,19 +9,21 @@ class ShopLogoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: SizedBox(
-                height: 100,
-                child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Icon(MyFlutterApp.returnIcon(shop.name)))),
-          ),
-          Text(shop.name),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SizedBox(
+                  height: 100,
+                  child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Icon(MyFlutterApp.returnIcon(shop.name)))),
+            ),
+            Text(shop.name),
+          ],
+        ),
       ),
     );
   }
