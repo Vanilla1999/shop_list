@@ -72,7 +72,7 @@ class RestClientMock extends RestClient {
     ];
     return [
       ShopHive(
-          id: 0, icon: "magnit", name: "Magnit", products: productListMagnit),
+          id: 0, icon: "magnit", name: "magnit", products: productListMagnit),
       ShopHive(
         id: 1,
         icon: "fix_price",

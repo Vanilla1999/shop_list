@@ -3,6 +3,8 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_list/data/models/shop.dart';
+import 'package:shop_list/data/models/shop_data.dart';
+import 'package:shop_list/images/my_flutter_app_icons.dart';
 import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_bloc.dart';
 import 'package:shop_list/presentation/shop_list_screen/blocs/shop_list_state.dart';
 import 'package:shop_list/tools/app_colors.dart';
@@ -145,12 +147,8 @@ class _ShopListResultWidget extends StatelessWidget {
                     crossAxisCount: 2),
                 itemCount: shopData.shops.length,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      color: AppColors.startGradient,
-                      child: Text(shopData.shops[index].name),
-                    ),
+                  return ShopIcon(
+                    shop: shopData.shops[index],
                   );
                 },
               ),
@@ -170,5 +168,48 @@ class _ShopListResultWidget extends StatelessWidget {
                 },
               ),
             ));
+  }
+}
+
+class ShopIcon extends StatelessWidget {
+  final Shop shop;
+
+  const ShopIcon({Key? key, required this.shop}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        elevation: 3,
+        clipBehavior: Clip.hardEdge,
+        child: Stack(
+          children: [
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SizedBox(
+                        height: 100,
+                        child: FittedBox(
+                            fit: BoxFit.fill,
+                            child: Icon(MyFlutterApp.returnIcon(shop.name)))),
+                  ),
+                  Text(shop.name),
+                ],
+              ),
+            ),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {},
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

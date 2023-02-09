@@ -102,7 +102,7 @@ class _FilterCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
+      elevation: 3,
       color: type.selected ? Colors.blue : Colors.white,
       clipBehavior: Clip.hardEdge,
       child: Stack(

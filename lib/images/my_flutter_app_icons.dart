@@ -20,7 +20,19 @@ class MyFlutterApp {
 
   static const _kFontFam = 'MyFlutterApp';
   static const String? _kFontPkg = null;
-
+static IconData returnIcon(String name){
+  if(name == 'magnit')
+  return magnit;
+  if(name == 'fix_price')
+    return fix_price;
+  if(name == 'seven_eleven')
+    return seven_eleven;
+  if(name == 'tabris')
+    return tabris;
+  if(name == 'pyatorochka')
+    return pyatorochka;
+  return pyatorochka;
+}
   static const IconData magnit = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData fix_price = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData seven_eleven = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
