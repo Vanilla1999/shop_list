@@ -49,5 +49,5 @@ extension ProductHiveMap on ProductHive {
 }
 
 extension TypeHiveMap on TypeHive {
-  Type toEntity() => Type(type);
+  Type toEntity() => Type( type: type, selected: false);
 }

@@ -130,12 +130,13 @@ class _FilterCardWidget extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                type.selected = !type.selected;
-                listType
-                    .where((element) => element.type == type.type)
-                    .first
-                    .selected = type.selected;
-                onChangedType(listType, shop, productName, productWeight);
+             List<Type> newList= listType.map((element)=>if (element.type == type.type){
+                return element.copyWith(selected: !type.selected);
+               }else{
+                return  element;
+               }
+             );
+                onChangedType(newList, shop, productName, productWeight);
               },
             ),
           )

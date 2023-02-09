@@ -36,7 +36,7 @@ class ShopListScreen extends StatelessWidget {
                       String productName, String productWeight) {
                     context.read<ShopListBloc>().add(ShopListEvents.filterType(
                         productName: productName,
-                        productWeight: double.parse(productWeight),
+                        productWeight: productWeight,
                         productType: listType,
                         shopList: shop));
                   },
@@ -44,7 +44,7 @@ class ShopListScreen extends StatelessWidget {
                     context
                         .read<ShopListBloc>()
                         .add(ShopListEvents.filterWeight(
-                          productWeight: double.parse(query),
+                          productWeight: query,
                         ));
                   },
                 ),

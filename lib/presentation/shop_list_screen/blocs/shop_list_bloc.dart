@@ -13,18 +13,18 @@ class ShopListBloc extends Bloc<ShopListEvents, ShopListState> {
   List<Shop> shops = [];
   List<Type> listType = [];
   String productName = '';
-  double productWeight = 0.0;
+  String productWeight = '';
 
   ShopListBloc() : super(const ShopListState.loading()) {
     on<ShopListEvents>((event, emit) async {
       await event.when(
           filterType:
-              (productName, productWeight, productType, shopList) async {
+              (productName, productWeight, productType, shopList)  {
                 listType = productType;
             emit(ShopListState.success(
                 shopList: shopList,
                 typeList: listType,
-                textWeight: productWeight.toString(),
+                textWeight: productWeight,
                 textName: productName));
           },
           initialData: () async {
@@ -46,7 +46,7 @@ class ShopListBloc extends Bloc<ShopListEvents, ShopListState> {
                 textName: productName,
                 textWeight: productWeight.toString()));
           },
-          filterWeight: (double productWeight) {
+          filterWeight: (String productWeight) {
             productWeight = productWeight;
             emit(ShopListState.success(
                 shopList: shops,
